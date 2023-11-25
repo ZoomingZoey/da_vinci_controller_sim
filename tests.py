@@ -5,7 +5,9 @@ import tuple as tp
 import utils as ut
 from point import Point
 from vector import Vector
-from matrix import Matrix4
+from matrix2 import Matrix2
+from matrix3 import Matrix3
+from matrix4 import Matrix4
 
 class TestTuple(unittest.TestCase):
   
@@ -208,6 +210,100 @@ class TestVector(unittest.TestCase):
     self.b = Vector(2, 3, 4)
     self.assertTrue(Vector.cross(self.a, self.b) == Vector(-1, 2, -1))
     self.assertTrue(Vector.cross(self.b, self.a) == Vector(1, -2, 1))
+
+  class TestMatrix4(unittest.TestCase):
+  
+    @classmethod
+    def setUpClass(cls):
+      pass
+    
+    @classmethod
+    def tearDownClass(cls):
+      pass
+    
+    def setUp(self):
+      pass
+    
+    def tearDown(self):
+      pass
+
+  def test_construct_and_inspect_a_4x4_matrix(self):
+    '''Test case function for the constructing and inspecting a 4x4 matrix'''
+    self.M = Matrix4(1, 2, 3, 4,
+                5.5, 6.5, 7.5, 8.5,
+                9, 10, 11, 12,
+                13.5, 14.5, 15.5, 16.5)
+    
+    self.assertEqual(self.M.at(0, 0), 1)
+    self.assertEqual(self.M.at(0, 3), 4)
+    self.assertEqual(self.M.at(1, 0), 5.5)
+    self.assertEqual(self.M.at(1, 2), 7.5)
+    self.assertEqual(self.M.at(2, 2), 11)
+    self.assertEqual(self.M.at(3, 0), 13.5)
+    self.assertEqual(self.M.at(3, 2), 15.5)
+
+  def test_construct_and_inspect_a_4x4_matrix(self):
+    '''Test case function for the constructing and inspecting a 4x4 matrix'''
+    self.M = Matrix4(1, 2, 3, 4,
+                5.5, 6.5, 7.5, 8.5,
+                9, 10, 11, 12,
+                13.5, 14.5, 15.5, 16.5)
+    
+    self.assertEqual(self.M.at(0, 0), 1)
+    self.assertEqual(self.M.at(0, 3), 4)
+    self.assertEqual(self.M.at(1, 0), 5.5)
+    self.assertEqual(self.M.at(1, 2), 7.5)
+    self.assertEqual(self.M.at(2, 2), 11)
+    self.assertEqual(self.M.at(3, 0), 13.5)
+    self.assertEqual(self.M.at(3, 2), 15.5)
+
+  def test_representing_a_2x2_matrix(self):
+    '''Test case function for representing a 2x2 matrix'''
+    self.M = Matrix2(-3, 5,
+                     1, -2)
+    
+    self.assertEqual(self.M.at(0, 0), -3)
+    self.assertEqual(self.M.at(0, 1), 5)
+    self.assertEqual(self.M.at(1, 0), 1)
+    self.assertEqual(self.M.at(1, 1), -2)
+
+  def test_representing_a_3x3_matrix(self):
+    '''Test case function for representing a 3x3 matrix'''
+    self.M = Matrix3(-3, 5, 0,
+                     1, -2, -7,
+                     0, 1, 1)
+    
+    self.assertEqual(self.M.at(0, 0), -3)
+    self.assertEqual(self.M.at(1, 1), -2)
+    self.assertEqual(self.M.at(2, 2), 1)
+
+  def test_identical_matrix_equality(self):
+    '''Test case function for matrix equality with identical matrices'''
+    self.A = Matrix4(1, 2, 3, 4,
+                     5, 6, 7, 8,
+                     9, 8, 7, 6,
+                     5, 4, 3, 2)
+    
+    self.B = Matrix4(1, 2, 3, 4,
+                     5, 6, 7, 8,
+                     9, 8, 7, 6,
+                     5, 4, 3, 2)
+    
+    self.assertTrue(self.A == self.B)
+
+  def test_different_matrix_equality(self):
+    '''Test case function for matrix equality with different matrices'''
+    self.A = Matrix4(1, 2, 3, 4,
+                     5, 6, 7, 8,
+                     9, 8, 7, 6,
+                     5, 4, 3, 2)
+    
+    self.B = Matrix4(2, 3, 4, 5,
+                     6, 7, 8, 9,
+                     8, 7, 6, 5,
+                     4, 3, 2, 1)
+    
+    self.assertTrue(self.A != self.B)
 
 if __name__ == '__main__':
   unittest.main()
