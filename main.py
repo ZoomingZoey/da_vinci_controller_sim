@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from matrix import Matrix4
+from matrix4 import Matrix4
 from point import Point
 from vector import Vector
 

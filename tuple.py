@@ -1,7 +1,7 @@
 import utils as ut
 
 class Tuple:
-  def __init__(self, x, y, z, w):
+  def __init__(self, x=0.0, y=0.0, z=0.0, w=0.0):
     self.x = x
     self.y = y
     self.z = z
@@ -48,3 +48,32 @@ class Tuple:
                  self.y / other, \
                  self.z / other, \
                  self.w / other)
+  
+  def componentAt(self, index):
+    match index:
+      case 0:
+        return self.x
+      case 1:
+        return self.y
+      case 2:
+        return self.z
+      case 3:
+        return self.w
+      case _:
+        return None
+  
+  def setComponentAt(self, index, value):
+    match index:
+      case 0:
+        self.x = value
+      case 1:
+        self.y = value
+      case 2:
+        self.z = value
+      case 3:
+        self.w = value
+      case _:
+        return
+      
+  def asArray(self):
+    return [self.x, self.y, self.z, self.w]

@@ -211,7 +211,7 @@ class TestVector(unittest.TestCase):
     self.assertTrue(Vector.cross(self.a, self.b) == Vector(-1, 2, -1))
     self.assertTrue(Vector.cross(self.b, self.a) == Vector(1, -2, 1))
 
-  class TestMatrix4(unittest.TestCase):
+  class TestMatrix(unittest.TestCase):
   
     @classmethod
     def setUpClass(cls):
@@ -304,6 +304,75 @@ class TestVector(unittest.TestCase):
                      4, 3, 2, 1)
     
     self.assertTrue(self.A != self.B)
+
+  def test_multiply_two_matrices(self):
+    '''Test case function for multiplying two matrices'''
+    self.A = Matrix4(1, 2, 3, 4,
+                     5, 6, 7, 8,
+                     9, 8, 7, 6,
+                     5, 4, 3, 2)
+    
+    self.B = Matrix4(-2, 1, 2, 3,
+                     3, 2, 1, -1,
+                     4, 3, 6, 5,
+                     1, 2, 7, 8)
+    
+    result = self.A.matrixMultiply(self.B)
+    expected = Matrix4(20, 22, 50, 48,
+                       44, 54, 114, 108,
+                       40, 58, 110, 102,
+                       16, 26, 46, 42)
+    
+    self.assertTrue(result == expected)
+
+  def test_multiply_matrix_by_tuple(self):
+    '''Test case function for multiplying a matrix by a tuple'''
+    self.A = Matrix4(1, 2, 3, 4,
+                     2, 4, 4, 2,
+                     8, 6, 4, 1,
+                     0, 0, 0, 1)
+    
+    self.b = tp.Tuple(1, 2, 3, 1)
+    
+    result = self.A.tupleMultiply(self.b)
+    expected = tp.Tuple(18, 24, 33, 1)
+    
+    self.assertTrue(result == expected)
+
+  def test_multiply_matrix_by_identity_matrix(self):
+    '''Test case function for multiplying a matrix by the identity matrix'''
+    self.A = Matrix4(0, 1, 2, 4,
+                     1, 2, 4, 8,
+                     2, 4, 8, 16,
+                     4, 8, 16, 32)
+    
+    result = self.A.matrixMultiply(Matrix4().identity())
+    self.assertTrue(result == self.A)
+
+  def test_multiply_identity_matrix_by_tuple(self):
+    '''Test case function for multiplying the identity matrix by a tuple'''
+    self.a = tp.Tuple(1, 2, 3, 4)
+    
+    result = Matrix4().identity().tupleMultiply(self.a)
+    self.assertTrue(result == self.a)
+
+  def test_transposing_a_matrix(self):
+    '''Test case function for transposing a matrix'''
+    self.A = Matrix4(0, 9, 3, 0,
+                     9, 8, 0, 8,
+                     1, 8, 5, 3,
+                     0, 0, 5, 8)
+    
+    result = self.A.transpose()
+    self.assertTrue(result == Matrix4(0, 9, 1, 0,
+                                      9, 8, 8, 0,
+                                      3, 0, 5, 5,
+                                      0, 8, 3, 8))
+    
+  def test_transposing_the_identity_matrix(self):
+    '''Test case function for transposing the identity matrix'''
+    self.A = Matrix4().identity().transpose()
+    self.assertTrue(self.A == Matrix4().identity())
 
 if __name__ == '__main__':
   unittest.main()
