@@ -1,3 +1,5 @@
+from matrix2 import Matrix2
+import utils as ut
 class Matrix3:
   def __init__(self, a11=0, a12=0, a13=0,
                a21=0, a22=0, a23=0,
@@ -14,3 +16,34 @@ class Matrix3:
       print('Matrix row or collumn index out of range')
       return
     return self.mat[r][c]
+  
+  def submatrix(self, row: int, col: int) -> Matrix2:
+    if (row < 0 or row >= 3) and (col < 0 or col >= 3):
+      print('Matrix row or collumn index out of range')
+      return
+    
+    new_values = []
+    for r in range(3):
+      if r == row:
+        continue
+      for c in range(3):
+        if c == col:
+          continue
+        new_values.append(self.mat[r][c])
+
+    return Matrix2(new_values[0], new_values[1],
+                   new_values[2], new_values[3])
+  
+  def __eq__(self, other: "Matrix3") -> bool:
+    return(
+      ut.equal(self.mat[0][0], other.mat[0][0]) and
+      ut.equal(self.mat[0][1], other.mat[0][1]) and
+      ut.equal(self.mat[0][2], other.mat[0][2]) and
+      ut.equal(self.mat[1][0], other.mat[1][0]) and
+      ut.equal(self.mat[1][1], other.mat[1][1]) and
+      ut.equal(self.mat[1][2], other.mat[1][2]) and
+      ut.equal(self.mat[2][0], other.mat[2][0]) and
+      ut.equal(self.mat[2][1], other.mat[2][1]) and
+      ut.equal(self.mat[2][2], other.mat[2][2])
+    )
+        

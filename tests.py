@@ -374,5 +374,21 @@ class TestVector(unittest.TestCase):
     self.A = Matrix4().identity().transpose()
     self.assertTrue(self.A == Matrix4().identity())
 
+  def test_calculating_the_determinant_of_a_2x2_matrix(self):
+    '''Test case function for calculating the determinant of a 2x2 matrix'''
+    self.A = Matrix2(1, 5,
+                     -3, 2)
+    self.assertEqual(self.A.determinant(), 17)
+
+  def test_submatrix_of_3x3_matrix_is_2x2_matrix(self):
+    '''Test case function for showing the submatrix of a 3x3 matrix is a 2x2 matrix'''
+    self.A = Matrix3(1, 5, 0,
+                     -3, 2, 7,
+                     0, 6, -3)
+    result = self.A.submatrix(0, 2)
+    expected = Matrix2(-3, 2,
+                       0, 6)
+    self.assertTrue(result == expected)
+
 if __name__ == '__main__':
   unittest.main()
