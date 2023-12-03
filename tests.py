@@ -421,5 +421,27 @@ class TestVector(unittest.TestCase):
     self.assertEqual(self.A.minor(1, 0), 25)
     self.assertEqual(self.A.cofactor(1, 0), -25)
 
+  def test_calculate_determinant_of_3x3_matrix(self):
+    '''Test case function for calculating the determinant of a 3x3 matrix'''
+    self.A = Matrix3(1, 2, 6,
+                     -5, 8, -4,
+                     2, 6, 4)
+    self.assertEqual(self.A.cofactor(0, 0), 56)
+    self.assertEqual(self.A.cofactor(0, 1), 12)
+    self.assertEqual(self.A.cofactor(0, 2), -46)
+    self.assertEqual(self.A.determinant(), -196)
+
+  def test_calculate_determinant_of_4x4_matrix(self):
+    '''Test case function for calculating the determinant of a 4x4 matrix'''
+    self.A = Matrix4(-2, -8, 3, 5,
+                     -3, 1, 7, 3,
+                     1, 2, -9, 6,
+                     -6, 7, 7, -9)
+    self.assertEqual(self.A.cofactor(0, 0), 690)
+    self.assertEqual(self.A.cofactor(0, 1), 447)
+    self.assertEqual(self.A.cofactor(0, 2), 210)
+    self.assertEqual(self.A.cofactor(0, 3), 51)
+    self.assertEqual(self.A.determinant(), -4071)
+
 if __name__ == '__main__':
   unittest.main()

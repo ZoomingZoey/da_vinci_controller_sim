@@ -65,4 +65,11 @@ class Matrix3:
       return -minor
     
     return minor
+  
+  def determinant(self):
+    det = 0
+    for c in range(3):
+      det += self.at(0, c) * self.cofactor(0, c)
+
+    return det
         

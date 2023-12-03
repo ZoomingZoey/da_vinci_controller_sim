@@ -98,3 +98,29 @@ class Matrix4:
     return Matrix3(new_values[0], new_values[1], new_values[2],
                    new_values[3], new_values[4], new_values[5],
                    new_values[6], new_values[7], new_values[8])
+  
+  def minor(self, row: int, col: int):
+    if (row < 0 or row >= 4) and (col < 0 or col >= 4):
+      print('Matrix row or collumn index out of range')
+      return
+    
+    M = self.submatrix(row, col)
+    return M.determinant()
+  
+  def cofactor(self, row: int, col: int):
+    if (row < 0 or row >= 4) and (col < 0 or col >= 4):
+      print('Matrix row or collumn index out of range')
+      return
+    
+    minor = self.minor(row, col)
+    if row + col % 2 == 1:
+      return -minor
+    
+    return minor
+  
+  def determinant(self):
+    det = 0
+    for c in range(4):
+      det += self.at(0, c) * self.cofactor(0, c)
+
+    return det
