@@ -402,5 +402,24 @@ class TestVector(unittest.TestCase):
                        -7, -1, 1)
     self.assertTrue(result == expected)
 
+  def test_calculate_minor_of_3x3_matrix(self):
+    '''Test case function for calculating a minor of a 3x3 matrix'''
+    self.A = Matrix3(3, 5, 0,
+                     2, -1, -7,
+                     6, -1, 5)
+    self.B = self.A.submatrix(1, 0)
+    self.assertEqual(self.B.determinant(), 25)
+    self.assertEqual(self.A.minor(1, 0), 25)
+
+  def test_calculate_cofactor_of_3x3_matrix(self):
+    '''Test case function for calculating a cofactor of a 3x3 matrix'''
+    self.A = Matrix3(3, 5, 0,
+                     2, -1, -7,
+                     6, -1, 5)
+    self.assertEqual(self.A.minor(0, 0), -12)
+    self.assertEqual(self.A.cofactor(0, 0), -12)
+    self.assertEqual(self.A.minor(1, 0), 25)
+    self.assertEqual(self.A.cofactor(1, 0), -25)
+
 if __name__ == '__main__':
   unittest.main()

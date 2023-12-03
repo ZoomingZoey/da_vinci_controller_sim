@@ -46,4 +46,23 @@ class Matrix3:
       ut.equal(self.mat[2][1], other.mat[2][1]) and
       ut.equal(self.mat[2][2], other.mat[2][2])
     )
+  
+  def minor(self, row: int, col: int):
+    if (row < 0 or row >= 3) and (col < 0 or col >= 3):
+      print('Matrix row or collumn index out of range')
+      return
+    
+    M = self.submatrix(row, col)
+    return M.determinant()
+  
+  def cofactor(self, row: int, col: int):
+    if (row < 0 or row >= 3) and (col < 0 or col >= 3):
+      print('Matrix row or collumn index out of range')
+      return
+    
+    minor = self.minor(row, col)
+    if row + col % 2 == 1:
+      return -minor
+    
+    return minor
         
