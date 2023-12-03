@@ -1,5 +1,6 @@
 import utils as ut
 import tuple as tp
+from matrix3 import Matrix3
 class Matrix4:
   def __init__(self, a11=0, a12=0, a13=0, a14=0,
                a21=0, a22=0, a23=0, a24=0,
@@ -79,3 +80,21 @@ class Matrix4:
         M.mat[c][r] = self.at(r, c)
 
     return M
+  
+  def submatrix(self, row: int, col: int) -> Matrix3:
+    if (row < 0 or row >= 4) and (col < 0 or col >= 4):
+      print('Matrix row or collumn index out of range')
+      return
+    
+    new_values = []
+    for r in range(4):
+      if r == row:
+        continue
+      for c in range(4):
+        if c == col:
+          continue
+        new_values.append(self.mat[r][c])
+
+    return Matrix3(new_values[0], new_values[1], new_values[2],
+                   new_values[3], new_values[4], new_values[5],
+                   new_values[6], new_values[7], new_values[8])

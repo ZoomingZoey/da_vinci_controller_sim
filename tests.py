@@ -390,5 +390,17 @@ class TestVector(unittest.TestCase):
                        0, 6)
     self.assertTrue(result == expected)
 
+  def test_submatrix_of_4x4_matrix_is_3x3_matrix(self):
+    '''Test case function for showing the submatrix of a 4x4 matrix is a 3x3 matrix'''
+    self.A = Matrix4(-6, 1, 1, 6,
+                     -8, 5, 8, 6,
+                     -1, 0, 8, 2,
+                     -7, 1, -1, 1)
+    result = self.A.submatrix(2, 1)
+    expected = Matrix3(-6, 1, 6,
+                       -8, 8, 6,
+                       -7, -1, 1)
+    self.assertTrue(result == expected)
+
 if __name__ == '__main__':
   unittest.main()
