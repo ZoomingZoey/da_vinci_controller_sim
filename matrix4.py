@@ -60,7 +60,8 @@ class Matrix4:
                self.mat[r][3] * other.at(3, c)
         M.mat[r][c] = temp
 
-    return M
+    self.mat = M.mat
+    return self
   
   def tupleMultiply(self, other: tp.Tuple) -> tp.Tuple:
     t = tp.Tuple()
@@ -100,27 +101,44 @@ class Matrix4:
                    new_values[6], new_values[7], new_values[8])
   
   def minor(self, row: int, col: int):
-    if (row < 0 or row >= 4) and (col < 0 or col >= 4):
-      print('Matrix row or collumn index out of range')
-      return
-    
     M = self.submatrix(row, col)
     return M.determinant()
   
-  def cofactor(self, row: int, col: int):
-    if (row < 0 or row >= 4) and (col < 0 or col >= 4):
-      print('Matrix row or collumn index out of range')
-      return
-    
+  def cofactor(self, row: int, col: int):  
     minor = self.minor(row, col)
-    if row + col % 2 == 1:
+    if (row + col) % 2 == 1:
       return -minor
     
     return minor
   
   def determinant(self):
-    det = 0
-    for c in range(4):
-      det += self.at(0, c) * self.cofactor(0, c)
+    det = self.at(0, 0) * self.cofactor(0, 0) + \
+          self.at(0, 1) * self.cofactor(0, 1) + \
+          self.at(0, 2) * self.cofactor(0, 2) + \
+          self.at(0, 3) * self.cofactor(0, 3)
 
     return det
+  
+  def invertible(self) -> bool:
+    if self.determinant() == 0:
+      return False
+    
+    return True
+  
+  def inverse(self) -> "Matrix4":
+    if not self.invertible():
+      return self
+    
+    M2 = Matrix4()
+    for row in range(4):
+      for col in range(4):
+        c = self.cofactor(row, col)
+
+        # note that "col, row" here, instead of "row, col",
+        # accomplishes the transpose operation!
+        M2.mat[col][row] = c / self.determinant()
+
+    return M2
+
+    
+    

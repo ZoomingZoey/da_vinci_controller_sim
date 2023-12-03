@@ -61,15 +61,15 @@ class Matrix3:
       return
     
     minor = self.minor(row, col)
-    if row + col % 2 == 1:
+    if (row + col) % 2 == 1:
       return -minor
     
     return minor
   
   def determinant(self):
-    det = 0
-    for c in range(3):
-      det += self.at(0, c) * self.cofactor(0, c)
+    det = self.at(0, 0) * self.cofactor(0, 0) + \
+          self.at(0, 1) * self.cofactor(0, 1) + \
+          self.at(0, 2) * self.cofactor(0, 2)
 
     return det
         
