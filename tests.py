@@ -1,10 +1,13 @@
 import unittest
 import math
 
-import tuple as tp
 import utils as ut
-from point import Point
-from vector import Vector
+from tuple2d import Tuple2D
+from tuple3d import Tuple3D
+from point2d import Point2D
+from vector2d import Vector2D
+from point3d import Point3D
+from vector3d import Vector3D
 from matrix2 import Matrix2
 from matrix3 import Matrix3
 from matrix4 import Matrix4
@@ -26,9 +29,9 @@ class TestTuple(unittest.TestCase):
     pass
   
   ### make sure to add => test_ <= as prefix to all test cases otherwise they won't work ###
-  def test_tuple_is_point(self):
-    '''Test case function for checking if a tuple with w=1.0 is a point'''
-    self.a = tp.Tuple(4.3, -4.2, 3.1, 1.0)
+  def test_3d_tuple_is_point(self):
+    '''Test case function for checking if a 3D tuple with w=1.0 is a point'''
+    self.a = Tuple3D(4.3, -4.2, 3.1, 1.0)
     self.assertEqual(self.a.x, 4.3)
     self.assertEqual(self.a.y, -4.2)
     self.assertEqual(self.a.z, 3.1)
@@ -36,9 +39,18 @@ class TestTuple(unittest.TestCase):
     self.assertEqual(self.a.isPoint(), True)
     self.assertEqual(self.a.isVector(), False)
 
-  def test_tuple_is_vector(self):
-    '''Test case function for checking if a tuple with w=0.0 is a vector'''
-    self.a = tp.Tuple(4.3, -4.2, 3.1, 0.0)
+  def test_2d_tuple_is_point(self):
+    '''Test case function for checking if a 2D tuple with w=1.0 is a point'''
+    self.a = Tuple2D(4.3, -4.2, 1.0)
+    self.assertEqual(self.a.x, 4.3)
+    self.assertEqual(self.a.y, -4.2)
+    self.assertEqual(self.a.w, 1.0)
+    self.assertEqual(self.a.isPoint(), True)
+    self.assertEqual(self.a.isVector(), False)
+
+  def test_3d_tuple_is_vector(self):
+    '''Test case function for checking if a 3D tuple with w=0.0 is a vector'''
+    self.a = Tuple3D(4.3, -4.2, 3.1, 0.0)
     self.assertEqual(self.a.x, 4.3)
     self.assertEqual(self.a.y, -4.2)
     self.assertEqual(self.a.z, 3.1)
@@ -46,51 +58,80 @@ class TestTuple(unittest.TestCase):
     self.assertEqual(self.a.isPoint(), False)
     self.assertEqual(self.a.isVector(), True)
 
-  def test_tuple_is_vector(self):
-    '''Test case function for checking if a tuple with w=0.0 is a vector'''
-    self.a = tp.Tuple(4.3, -4.2, 3.1, 0.0)
+  def test_2d_tuple_is_vector(self):
+    '''Test case function for checking if a 2D tuple with w=0.0 is a vector'''
+    self.a = Tuple2D(4.3, -4.2, 0.0)
     self.assertEqual(self.a.x, 4.3)
     self.assertEqual(self.a.y, -4.2)
-    self.assertEqual(self.a.z, 3.1)
     self.assertEqual(self.a.w, 0.0)
     self.assertEqual(self.a.isPoint(), False)
     self.assertEqual(self.a.isVector(), True)
 
-  def test_adding_two_tuples(self):
-    '''Test case function for adding two tuples'''
-    self.a1 = tp.Tuple(3, -2, 5, 1)
-    self.a2 = tp.Tuple(-2, 3, 1, 0)
+  def test_adding_two_3d_tuples(self):
+    '''Test case function for adding two 3D tuples'''
+    self.a1 = Tuple3D(3, -2, 5, 1)
+    self.a2 = Tuple3D(-2, 3, 1, 0)
     result = self.a1 + self.a2
-    self.assertTrue(result == tp.Tuple(1, 1, 6, 1))
+    self.assertTrue(result == Tuple3D(1, 1, 6, 1))
 
-  def test_negating_a_tuple(self):
-    '''Test case function for negating a tuple'''
-    self.a = tp.Tuple(1, -2, 3, -4)
-    self.assertTrue(-self.a == tp.Tuple(-1, 2, -3, 4))
+  def test_adding_two_2d_tuples(self):
+    '''Test case function for adding two 2D tuples'''
+    self.a1 = Tuple2D(3, -2, 1)
+    self.a2 = Tuple2D(-2, 3, 0)
+    result = self.a1 + self.a2
+    self.assertTrue(result == Tuple2D(1, 1, 1))
 
-  def test_multiplying_a_tuple_by_a_scalar(self):
-    '''Test case function for multiplying a tuple by a scalar'''
-    self.a = tp.Tuple(1, -2, 3, -4)
+  def test_negating_a_3d_tuple(self):
+    '''Test case function for negating a 3D tuple'''
+    self.a = Tuple3D(1, -2, 3, -4)
+    self.assertTrue(-self.a == Tuple3D(-1, 2, -3, 4))
+
+  def test_negating_a_2d_tuple(self):
+    '''Test case function for negating a 2D tuple'''
+    self.a = Tuple2D(1, -2, -4)
+    self.assertTrue(-self.a == Tuple2D(-1, 2, 4))
+
+  def test_multiplying_a_3d_tuple_by_a_scalar(self):
+    '''Test case function for multiplying a 3D tuple by a scalar'''
+    self.a = Tuple3D(1, -2, 3, -4)
     result = self.a * 3.5
-    self.assertTrue(result == tp.Tuple(3.5, -7, 10.5, -14))
+    self.assertTrue(result == Tuple3D(3.5, -7, 10.5, -14))
 
-  def test_multiplying_a_tuple_by_a_fraction(self):
-    '''Test case function for multiplying a tuple by a fraction'''
-    self.a = tp.Tuple(1, -2, 3, -4)
+  def test_multiplying_a_2d_tuple_by_a_scalar(self):
+    '''Test case function for multiplying a 2D tuple by a scalar'''
+    self.a = Tuple2D(1, -2, -4)
+    result = self.a * 3.5
+    self.assertTrue(result == Tuple2D(3.5, -7, -14))
+
+  def test_multiplying_a_3d_tuple_by_a_fraction(self):
+    '''Test case function for multiplying a 3D tuple by a fraction'''
+    self.a = Tuple3D(1, -2, 3, -4)
     result = self.a * 0.5
-    self.assertTrue(result == tp.Tuple(0.5, -1, 1.5, -2))
+    self.assertTrue(result == Tuple3D(0.5, -1, 1.5, -2))
 
-  def test_dividing_a_tuple_by_a_scalar(self):
-    '''Test case function for dividing a tuple by a scalar'''
-    self.a = tp.Tuple(1, -2, 3, -4)
+  def test_multiplying_a_2d_tuple_by_a_fraction(self):
+    '''Test case function for multiplying a 2D tuple by a fraction'''
+    self.a = Tuple2D(1, -2, -4)
+    result = self.a * 0.5
+    self.assertTrue(result == Tuple2D(0.5, -1, -2))
+
+  def test_dividing_a_3d_tuple_by_a_scalar(self):
+    '''Test case function for dividing a 3D tuple by a scalar'''
+    self.a = Tuple3D(1, -2, 3, -4)
     result = self.a / 2
-    self.assertTrue(result == tp.Tuple(0.5, -1, 1.5, -2))
+    self.assertTrue(result == Tuple3D(0.5, -1, 1.5, -2))
 
-  def test_dot_product_of_two_tuples(self):
-    '''Test case function for the dot product of two tuples'''
-    self.a = Vector(1, 2, 3)
-    self.b = Vector(2, 3, 4)
-    result = Vector.dot(self.a, self.b)
+  def test_dividing_a_2d_tuple_by_a_scalar(self):
+    '''Test case function for dividing a 2D tuple by a scalar'''
+    self.a = Tuple2D(1, -2, -4)
+    result = self.a / 2
+    self.assertTrue(result == Tuple2D(0.5, -1, -2))
+
+  def test_dot_product_of_two_3d_tuples(self):
+    '''Test case function for the dot product of two 3D tuples'''
+    self.a = Vector3D(1, 2, 3)
+    self.b = Vector3D(2, 3, 4)
+    result = Vector3D.dot(self.a, self.b)
     self.assertTrue(result == 20)
 
 class TestPoint(unittest.TestCase):
@@ -109,24 +150,43 @@ class TestPoint(unittest.TestCase):
   def tearDown(self):
     pass
 
-  def test_tuple_is_point(self):
-    '''Test case function for checking that Point() creates tuples with w=1.0'''
-    self.p = Point(4, -4, 3)
-    self.assertTrue(self.p == tp.Tuple(4, -4, 3, 1))
+  def test_3d_point_creates_correct_3d_tuple(self):
+    '''Test case function for checking that Point3D() creates 3D tuples with w=1.0'''
+    self.p = Point3D(4, -4, 3)
+    self.assertTrue(self.p == Tuple3D(4, -4, 3, 1))
 
-  def test_subtracting_two_points(self):
-    '''Test case function for subtracting two points'''
-    self.p1 = Point(3, 2, 1)
-    self.p2 = Point(5, 6, 7)
+  def test_2d_point_creates_correct_2d_tuple(self):
+    '''Test case function for checking that Point2D() creates 2D tuples with w=1.0'''
+    self.p = Point2D(4, -4)
+    self.assertTrue(self.p == Tuple2D(4, -4, 1))
+
+  def test_subtracting_two_3d_points(self):
+    '''Test case function for subtracting two 3D points'''
+    self.p1 = Point3D(3, 2, 1)
+    self.p2 = Point3D(5, 6, 7)
     result = self.p1 - self.p2
-    self.assertTrue(result == Vector(-2, -4, -6))
+    self.assertTrue(result == Vector3D(-2, -4, -6))
 
-  def test_subtracting_a_vector_from_a_point(self):
-    '''Test case function for subtracting a vector from a point'''
-    self.p = Point(3, 2, 1)
-    self.v = Vector(5, 6, 7)
+  def test_subtracting_two_2d_points(self):
+    '''Test case function for subtracting two 2D points'''
+    self.p1 = Point2D(3, 2)
+    self.p2 = Point2D(5, 6)
+    result = self.p1 - self.p2
+    self.assertTrue(result == Vector2D(-2, -4))
+
+  def test_subtracting_a_3d_vector_from_a_3d_point(self):
+    '''Test case function for subtracting a 3D vector from a 3D point'''
+    self.p = Point3D(3, 2, 1)
+    self.v = Vector3D(5, 6, 7)
     result = self.p - self.v
-    self.assertTrue(result == Point(-2, -4, -6))
+    self.assertTrue(result == Point3D(-2, -4, -6))
+
+  def test_subtracting_a_2d_vector_from_a_2d_point(self):
+    '''Test case function for subtracting a 2D vector from a 2D point'''
+    self.p = Point2D(3, 2)
+    self.v = Vector2D(5, 6)
+    result = self.p - self.v
+    self.assertTrue(result == Point2D(-2, -4))
 
 class TestVector(unittest.TestCase):
   
@@ -144,72 +204,127 @@ class TestVector(unittest.TestCase):
   def tearDown(self):
     pass
 
-  def test_tuple_is_vector(self):
-    '''Test case function for checking that Vector() creates tuples with w=0.0'''
-    self.v = Vector(4, -4, 3)
-    self.assertTrue(self.v == tp.Tuple(4, -4, 3, 0))
+  def test_3d_vector_creates_correct_3d_tuple(self):
+    '''Test case function for checking that Vector3D() creates 3D tuples with w=0.0'''
+    self.v = Vector3D(4, -4, 3)
+    self.assertTrue(self.v == Tuple3D(4, -4, 3, 0))
 
-  def test_subtracting_two_vectors(self):
-    '''Test case function for subtracting two vectors'''
-    self.v1 = Vector(3, 2, 1)
-    self.v2 = Vector(5, 6, 7)
+  def test_2d_vector_creates_correct_2d_tuple(self):
+    '''Test case function for checking that Vector2D() creates 2D tuples with w=0.0'''
+    self.v = Vector2D(4, -4)
+    self.assertTrue(self.v == Tuple2D(4, -4, 0))
+
+  def test_subtracting_two_3d_vectors(self):
+    '''Test case function for subtracting two 3D vectors'''
+    self.v1 = Vector3D(3, 2, 1)
+    self.v2 = Vector3D(5, 6, 7)
     result = self.v1 - self.v2
-    self.assertTrue(result == Vector(-2, -4, -6))
+    self.assertTrue(result == Vector3D(-2, -4, -6))
 
-  def test_subtract_vector_from_zero_vector(self):
-    '''Test case function for subtracting a vector from the zero vector'''
-    self.zero = Vector(0, 0, 0)
-    self.v = Vector(1, -2, 3)
+  def test_subtracting_two_2d_vectors(self):
+    '''Test case function for subtracting two 2D vectors'''
+    self.v1 = Vector2D(3, 2)
+    self.v2 = Vector2D(5, 6)
+    result = self.v1 - self.v2
+    self.assertTrue(result == Vector2D(-2, -4))
+
+  def test_subtract_3d_vector_from_3d_zero_vector(self):
+    '''Test case function for subtracting a 3D vector from the 3D zero vector'''
+    self.zero = Vector3D(0, 0, 0)
+    self.v = Vector3D(1, -2, 3)
     result = self.zero - self.v
-    self.assertTrue(result == Vector(-1, 2, -3))
+    self.assertTrue(result == Vector3D(-1, 2, -3))
 
-  def test_compute_vector_magnitude_1(self):
-    '''Test case function for computing the magnitude of vector(1, 0, 0)'''
-    self.v = Vector(1, 0, 0)
-    self.assertTrue(ut.equal(Vector.magnitude(self.v), 1))
+  def test_subtract_2d_vector_from_2d_zero_vector(self):
+    '''Test case function for subtracting a 2D vector from the 2D zero vector'''
+    self.zero = Vector2D(0, 0)
+    self.v = Vector2D(1, -2)
+    result = self.zero - self.v
+    self.assertTrue(result == Vector2D(-1, 2))
 
-  def test_compute_vector_magnitude_2(self):
-    '''Test case function for computing the magnitude of vector(0, 1, 0)'''
-    self.v = Vector(0, 1, 0)
-    self.assertTrue(ut.equal(Vector.magnitude(self.v), 1))
+  def test_compute_3d_vector_magnitude_1(self):
+    '''Test case function for computing the magnitude of Vector3D(1, 0, 0)'''
+    self.v = Vector3D(1, 0, 0)
+    self.assertTrue(ut.equal(Vector3D.magnitude(self.v), 1))
 
-  def test_compute_vector_magnitude_3(self):
-    '''Test case function for computing the magnitude of vector(0, 0, 1)'''
-    self.v = Vector(0, 0, 1)
-    self.assertTrue(ut.equal(Vector.magnitude(self.v), 1))
+  def test_compute_2d_vector_magnitude_1(self):
+    '''Test case function for computing the magnitude of Vector2D(1, 0)'''
+    self.v = Vector2D(1, 0)
+    self.assertTrue(ut.equal(Vector2D.magnitude(self.v), 1))
 
-  def test_compute_vector_magnitude_4(self):
-    '''Test case function for computing the magnitude of vector(1, 2, 3)'''
-    self.v = Vector(1, 2, 3)
-    self.assertTrue(ut.equal(Vector.magnitude(self.v), math.sqrt(14)))
+  def test_compute_3d_vector_magnitude_2(self):
+    '''Test case function for computing the magnitude of Vector3D(0, 1, 0)'''
+    self.v = Vector3D(0, 1, 0)
+    self.assertTrue(ut.equal(Vector3D.magnitude(self.v), 1))
 
-  def test_compute_vector_magnitude_5(self):
-    '''Test case function for computing the magnitude of vector(-1, -2, -3)'''
-    self.v = Vector(-1, -2, -3)
-    self.assertTrue(ut.equal(Vector.magnitude(self.v), math.sqrt(14)))
+  def test_compute_2d_vector_magnitude_2(self):
+    '''Test case function for computing the magnitude of Vector2D(0, 1)'''
+    self.v = Vector2D(0, 1)
+    self.assertTrue(ut.equal(Vector2D.magnitude(self.v), 1))
 
-  def test_normalize_vector_1(self):
-    '''Test case function for normalizing vector(4, 0, 0) gives (1, 0, 0)'''
-    self.v = Vector(4, 0, 0)
-    self.assertTrue(Vector.normalize(self.v) == Vector(1, 0, 0))
+  def test_compute_3d_vector_magnitude_3(self):
+    '''Test case function for computing the magnitude of Vector3D(0, 0, 1)'''
+    self.v = Vector3D(0, 0, 1)
+    self.assertTrue(ut.equal(Vector3D.magnitude(self.v), 1))
 
-  def test_normalize_vector_2(self):
-    '''Test case function for normalizing vector(1, 2, 3)'''
-    self.v = Vector(1, 2, 3)
-    self.assertTrue(Vector.normalize(self.v) == Vector(0.26726, 0.53452, 0.80178))
+  def test_compute_3d_vector_magnitude_4(self):
+    '''Test case function for computing the magnitude of Vector3D(1, 2, 3)'''
+    self.v = Vector3D(1, 2, 3)
+    self.assertTrue(ut.equal(Vector3D.magnitude(self.v), math.sqrt(14)))
 
-  def test_magnitude_of_normalized_vector(self):
-    '''Test case function for the magnitude of a normalized vector'''
-    self.v = Vector(1, 2, 3)
-    norm = Vector.normalize(self.v)
-    self.assertEqual(Vector.magnitude(norm), 1)
+  def test_compute_2d_vector_magnitude_3(self):
+    '''Test case function for computing the magnitude of Vector2D(1, 2)'''
+    self.v = Vector2D(1, 2)
+    self.assertTrue(ut.equal(Vector2D.magnitude(self.v), math.sqrt(5)))
 
-  def test_cross_product_of_two_vectors(self):
-    '''Test case function for the cross product of two vectors'''
-    self.a = Vector(1, 2, 3)
-    self.b = Vector(2, 3, 4)
-    self.assertTrue(Vector.cross(self.a, self.b) == Vector(-1, 2, -1))
-    self.assertTrue(Vector.cross(self.b, self.a) == Vector(1, -2, 1))
+  def test_compute_3d_vector_magnitude_5(self):
+    '''Test case function for computing the magnitude of Vector3D(-1, -2, -3)'''
+    self.v = Vector3D(-1, -2, -3)
+    self.assertTrue(ut.equal(Vector3D.magnitude(self.v), math.sqrt(14)))
+
+  def test_compute_2d_vector_magnitude_4(self):
+    '''Test case function for computing the magnitude of Vector2D(-1, -2)'''
+    self.v = Vector2D(-1, -2)
+    self.assertTrue(ut.equal(Vector2D.magnitude(self.v), math.sqrt(5)))
+
+  def test_normalize_3d_vector_1(self):
+    '''Test case function for normalizing Vector3D(4, 0, 0) gives (1, 0, 0)'''
+    self.v = Vector3D(4, 0, 0)
+    self.assertTrue(Vector3D.normalize(self.v) == Vector3D(1, 0, 0))
+
+  def test_normalize_2d_vector_1(self):
+    '''Test case function for normalizing Vector2D(4, 0) gives (1, 0)'''
+    self.v = Vector2D(4, 0)
+    self.assertTrue(Vector2D.normalize(self.v) == Vector2D(1, 0))
+
+  def test_normalize_3d_vector_2(self):
+    '''Test case function for normalizing Vector3D(1, 2, 3)'''
+    self.v = Vector3D(1, 2, 3)
+    self.assertTrue(Vector3D.normalize(self.v) == Vector3D(0.26726, 0.53452, 0.80178))
+
+  def test_normalize_2d_vector_2(self):
+    '''Test case function for normalizing Vector2D(1, 2)'''
+    self.v = Vector2D(1, 2)
+    self.assertTrue(Vector2D.normalize(self.v) == Vector2D(0.44721, 0.89442))
+
+  def test_magnitude_of_normalized_3d_vector(self):
+    '''Test case function for the magnitude of a normalized 3D vector'''
+    self.v = Vector3D(1, 2, 3)
+    norm = Vector3D.normalize(self.v)
+    self.assertEqual(Vector3D.magnitude(norm), 1)
+
+  def test_magnitude_of_normalized_2d_vector(self):
+    '''Test case function for the magnitude of a normalized 2D vector'''
+    self.v = Vector2D(1, 2)
+    norm = Vector2D.normalize(self.v)
+    self.assertTrue(ut.equal(Vector2D.magnitude(norm), 1))
+
+  def test_cross_product_of_two_3d_vectors(self):
+    '''Test case function for the cross product of two 3D vectors'''
+    self.a = Vector3D(1, 2, 3)
+    self.b = Vector3D(2, 3, 4)
+    self.assertTrue(Vector3D.cross(self.a, self.b) == Vector3D(-1, 2, -1))
+    self.assertTrue(Vector3D.cross(self.b, self.a) == Vector3D(1, -2, 1))
 
   class TestMatrix(unittest.TestCase):
   
@@ -226,21 +341,6 @@ class TestVector(unittest.TestCase):
     
     def tearDown(self):
       pass
-
-  def test_construct_and_inspect_a_4x4_matrix(self):
-    '''Test case function for the constructing and inspecting a 4x4 matrix'''
-    self.M = Matrix4(1, 2, 3, 4,
-                5.5, 6.5, 7.5, 8.5,
-                9, 10, 11, 12,
-                13.5, 14.5, 15.5, 16.5)
-    
-    self.assertEqual(self.M.at(0, 0), 1)
-    self.assertEqual(self.M.at(0, 3), 4)
-    self.assertEqual(self.M.at(1, 0), 5.5)
-    self.assertEqual(self.M.at(1, 2), 7.5)
-    self.assertEqual(self.M.at(2, 2), 11)
-    self.assertEqual(self.M.at(3, 0), 13.5)
-    self.assertEqual(self.M.at(3, 2), 15.5)
 
   def test_construct_and_inspect_a_4x4_matrix(self):
     '''Test case function for the constructing and inspecting a 4x4 matrix'''
@@ -277,8 +377,8 @@ class TestVector(unittest.TestCase):
     self.assertEqual(self.M.at(1, 1), -2)
     self.assertEqual(self.M.at(2, 2), 1)
 
-  def test_identical_matrix_equality(self):
-    '''Test case function for matrix equality with identical matrices'''
+  def test_identical_4x4_matrix_equality(self):
+    '''Test case function for matrix equality with identical 4x4 matrices'''
     self.A = Matrix4(1, 2, 3, 4,
                      5, 6, 7, 8,
                      9, 8, 7, 6,
@@ -291,8 +391,8 @@ class TestVector(unittest.TestCase):
     
     self.assertTrue(self.A == self.B)
 
-  def test_different_matrix_equality(self):
-    '''Test case function for matrix equality with different matrices'''
+  def test_different_4x4_matrix_equality(self):
+    '''Test case function for matrix equality with different 4x4 matrices'''
     self.A = Matrix4(1, 2, 3, 4,
                      5, 6, 7, 8,
                      9, 8, 7, 6,
@@ -305,8 +405,8 @@ class TestVector(unittest.TestCase):
     
     self.assertTrue(self.A != self.B)
 
-  def test_multiply_two_matrices(self):
-    '''Test case function for multiplying two matrices'''
+  def test_multiply_two_4x4_matrices(self):
+    '''Test case function for multiplying two 4x4_matrices'''
     self.A = Matrix4(1, 2, 3, 4,
                      5, 6, 7, 8,
                      9, 8, 7, 6,
@@ -325,22 +425,22 @@ class TestVector(unittest.TestCase):
     
     self.assertTrue(result == expected)
 
-  def test_multiply_matrix_by_tuple(self):
-    '''Test case function for multiplying a matrix by a tuple'''
+  def test_multiply_4x4_matrix_by_3d_tuple(self):
+    '''Test case function for multiplying a 4x4_matrix by a 3D tuple'''
     self.A = Matrix4(1, 2, 3, 4,
                      2, 4, 4, 2,
                      8, 6, 4, 1,
                      0, 0, 0, 1)
     
-    self.b = tp.Tuple(1, 2, 3, 1)
+    self.b = Tuple3D(1, 2, 3, 1)
     
     result = self.A.tupleMultiply(self.b)
-    expected = tp.Tuple(18, 24, 33, 1)
+    expected = Tuple3D(18, 24, 33, 1)
     
     self.assertTrue(result == expected)
 
-  def test_multiply_matrix_by_identity_matrix(self):
-    '''Test case function for multiplying a matrix by the identity matrix'''
+  def test_multiply_4x4_matrix_by_4x4_identity_matrix(self):
+    '''Test case function for multiplying a 4x4 matrix by the 4x4 identity matrix'''
     self.A = Matrix4(0, 1, 2, 4,
                      1, 2, 4, 8,
                      2, 4, 8, 16,
@@ -349,15 +449,15 @@ class TestVector(unittest.TestCase):
     result = self.A.matrixMultiply(Matrix4().identity())
     self.assertTrue(result == self.A)
 
-  def test_multiply_identity_matrix_by_tuple(self):
-    '''Test case function for multiplying the identity matrix by a tuple'''
-    self.a = tp.Tuple(1, 2, 3, 4)
+  def test_multiply_4x4_identity_matrix_by_3d_tuple(self):
+    '''Test case function for multiplying the 4x4 identity matrix by a 3D tuple'''
+    self.a = Tuple3D(1, 2, 3, 4)
     
     result = Matrix4().identity().tupleMultiply(self.a)
     self.assertTrue(result == self.a)
 
-  def test_transposing_a_matrix(self):
-    '''Test case function for transposing a matrix'''
+  def test_transposing_a_4x4_matrix(self):
+    '''Test case function for transposing a 4x4 matrix'''
     self.A = Matrix4(0, 9, 3, 0,
                      9, 8, 0, 8,
                      1, 8, 5, 3,
@@ -369,8 +469,8 @@ class TestVector(unittest.TestCase):
                                       3, 0, 5, 5,
                                       0, 8, 3, 8))
     
-  def test_transposing_the_identity_matrix(self):
-    '''Test case function for transposing the identity matrix'''
+  def test_transposing_the_4x4_identity_matrix(self):
+    '''Test case function for transposing the 4x4_identity matrix'''
     self.A = Matrix4().identity().transpose()
     self.assertTrue(self.A == Matrix4().identity())
 

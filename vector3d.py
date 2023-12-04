@@ -1,7 +1,7 @@
-import tuple as tp
+from tuple3d import Tuple3D
 import math
 
-class Vector(tp.Tuple):
+class Vector3D(Tuple3D):
   def __init__(self, x, y, z):
     super().__init__(x, y, z, 0.0)
 
@@ -11,10 +11,10 @@ class Vector(tp.Tuple):
   
   @classmethod
   def normalize(cls, v):
-    return tp.Tuple(v.x / Vector.magnitude(v),
-                    v.y / Vector.magnitude(v),
-                    v.z / Vector.magnitude(v),
-                    v.w / Vector.magnitude(v))
+    return Tuple3D(v.x / Vector3D.magnitude(v),
+                    v.y / Vector3D.magnitude(v),
+                    v.z / Vector3D.magnitude(v),
+                    v.w / Vector3D.magnitude(v))
   
   @classmethod
   def dot(cls, a, b):
@@ -25,6 +25,6 @@ class Vector(tp.Tuple):
   
   @classmethod
   def cross(cls, a, b):
-    return Vector(a.y * b.z - a.z * b.y,
+    return Vector3D(a.y * b.z - a.z * b.y,
                   a.z * b.x - a.x * b.z,
                   a.x * b.y - a.y * b.x)

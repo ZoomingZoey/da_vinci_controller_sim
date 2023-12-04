@@ -1,6 +1,6 @@
 import utils as ut
 
-class Tuple:
+class Tuple3D:
   def __init__(self, x=0.0, y=0.0, z=0.0, w=0.0):
     self.x = x
     self.y = y
@@ -20,31 +20,31 @@ class Tuple:
            ut.equal(self.w, other.w)
   
   def __add__(self, other):
-    return Tuple(self.x + other.x, \
+    return Tuple3D(self.x + other.x, \
                  self.y + other.y, \
                  self.z + other.z, \
                  self.w + other.w)
   
   def __sub__(self, other):
-    return Tuple(self.x - other.x, \
+    return Tuple3D(self.x - other.x, \
                  self.y - other.y, \
                  self.z - other.z, \
                  self.w - other.w)
   
   def __neg__(self):
-    return Tuple(-self.x, \
+    return Tuple3D(-self.x, \
                  -self.y, \
                  -self.z, \
                  -self.w)
   
   def __mul__(self, other):
-    return Tuple(self.x * other, \
+    return Tuple3D(self.x * other, \
                  self.y * other, \
                  self.z * other, \
                  self.w * other)
   
   def __truediv__(self, other):
-    return Tuple(self.x / other, \
+    return Tuple3D(self.x / other, \
                  self.y / other, \
                  self.z / other, \
                  self.w / other)

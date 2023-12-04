@@ -1,5 +1,5 @@
 import utils as ut
-import tuple as tp
+from tuple3d import Tuple3D
 from matrix3 import Matrix3
 class Matrix4:
   def __init__(self, a11=0, a12=0, a13=0, a14=0,
@@ -63,8 +63,8 @@ class Matrix4:
     self.mat = M.mat
     return self
   
-  def tupleMultiply(self, other: tp.Tuple) -> tp.Tuple:
-    t = tp.Tuple()
+  def tupleMultiply(self, other: Tuple3D) -> Tuple3D:
+    t = Tuple3D()
     for r in range(4):
       temp = self.mat[r][0] * other.componentAt(0) + \
               self.mat[r][1] * other.componentAt(1) + \
