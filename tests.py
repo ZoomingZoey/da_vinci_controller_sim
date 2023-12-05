@@ -391,6 +391,18 @@ class TestVector(unittest.TestCase):
     
     self.assertTrue(self.A == self.B)
 
+  def test_identical_3x3_matrix_equality(self):
+    '''Test case function for matrix equality with identical 3x3 matrices'''
+    self.A = Matrix3(1, 2, 3,
+                     4, 5, 6,
+                     7, 8, 9)
+    
+    self.B = Matrix3(1, 2, 3,
+                     4, 5, 6,
+                     7, 8, 9)
+    
+    self.assertTrue(self.A == self.B)
+
   def test_different_4x4_matrix_equality(self):
     '''Test case function for matrix equality with different 4x4 matrices'''
     self.A = Matrix4(1, 2, 3, 4,
@@ -405,8 +417,20 @@ class TestVector(unittest.TestCase):
     
     self.assertTrue(self.A != self.B)
 
+  def test_different_3x3_matrix_equality(self):
+    '''Test case function for matrix equality with different 3x3 matrices'''
+    self.A = Matrix3(1, 2, 3,
+                     4, 5, 6,
+                     7, 8, 9)
+    
+    self.B = Matrix3(2, 3, 4,
+                     5, 6, 7,
+                     8, 9, 8)
+    
+    self.assertTrue(self.A != self.B)
+
   def test_multiply_two_4x4_matrices(self):
-    '''Test case function for multiplying two 4x4_matrices'''
+    '''Test case function for multiplying two 4x4 matrices'''
     self.A = Matrix4(1, 2, 3, 4,
                      5, 6, 7, 8,
                      9, 8, 7, 6,
@@ -417,16 +441,25 @@ class TestVector(unittest.TestCase):
                      4, 3, 6, 5,
                      1, 2, 7, 8)
     
+  def test_multiply_two_3x3_matrices(self):
+    '''Test case function for multiplying two 3x3 matrices'''
+    self.A = Matrix3(1, 2, 3,
+                     4, 5, 6,
+                     7, 8, 9)
+    
+    self.B = Matrix3(-2, 1, 2,
+                     3, 4, -5,
+                     4, 3, 2)
+    
     result = self.A.matrixMultiply(self.B)
-    expected = Matrix4(20, 22, 50, 48,
-                       44, 54, 114, 108,
-                       40, 58, 110, 102,
-                       16, 26, 46, 42)
+    expected = Matrix3(16, 18, -2,
+                       31, 42, -5,
+                       46, 66, -8)
     
     self.assertTrue(result == expected)
 
   def test_multiply_4x4_matrix_by_3d_tuple(self):
-    '''Test case function for multiplying a 4x4_matrix by a 3D tuple'''
+    '''Test case function for multiplying a 4x4 matrix by a 3D tuple'''
     self.A = Matrix4(1, 2, 3, 4,
                      2, 4, 4, 2,
                      8, 6, 4, 1,
@@ -436,6 +469,19 @@ class TestVector(unittest.TestCase):
     
     result = self.A.tupleMultiply(self.b)
     expected = Tuple3D(18, 24, 33, 1)
+    
+    self.assertTrue(result == expected)
+
+  def test_multiply_3x3_matrix_by_2d_tuple(self):
+    '''Test case function for multiplying a 3x3 matrix by a 2D tuple'''
+    self.A = Matrix3(1, 2, 3,
+                     2, 4, 4,
+                     0, 0, 1)
+    
+    self.b = Tuple2D(1, 2, 1)
+    
+    result = self.A.tupleMultiply(self.b)
+    expected = Tuple2D(8, 14, 1)
     
     self.assertTrue(result == expected)
 
@@ -449,11 +495,27 @@ class TestVector(unittest.TestCase):
     result = self.A.matrixMultiply(Matrix4().identity())
     self.assertTrue(result == self.A)
 
+  def test_multiply_3x3_matrix_by_3x3_identity_matrix(self):
+    '''Test case function for multiplying a 3x3 matrix by the 3x3 identity matrix'''
+    self.A = Matrix3(0, 1, 2,
+                     1, 2, 14,
+                     2, 14, 18)
+    
+    result = self.A.matrixMultiply(Matrix3().identity())
+    self.assertTrue(result == self.A)
+
   def test_multiply_4x4_identity_matrix_by_3d_tuple(self):
     '''Test case function for multiplying the 4x4 identity matrix by a 3D tuple'''
     self.a = Tuple3D(1, 2, 3, 4)
     
     result = Matrix4().identity().tupleMultiply(self.a)
+    self.assertTrue(result == self.a)
+
+  def test_multiply_3x3_identity_matrix_by_2d_tuple(self):
+    '''Test case function for multiplying the 3x3 identity matrix by a 2D tuple'''
+    self.a = Tuple2D(1, 2, 3)
+    
+    result = Matrix3().identity().tupleMultiply(self.a)
     self.assertTrue(result == self.a)
 
   def test_transposing_a_4x4_matrix(self):
@@ -469,10 +531,26 @@ class TestVector(unittest.TestCase):
                                       3, 0, 5, 5,
                                       0, 8, 3, 8))
     
+  def test_transposing_a_3x3_matrix(self):
+    '''Test case function for transposing a 3x3 matrix'''
+    self.A = Matrix3(0, 9, 3,
+                     9, 8, 0,
+                     1, 8, 5)
+    
+    result = self.A.transpose()
+    self.assertTrue(result == Matrix3(0, 9, 1,
+                                      9, 8, 8,
+                                      3, 0, 5))
+    
   def test_transposing_the_4x4_identity_matrix(self):
-    '''Test case function for transposing the 4x4_identity matrix'''
+    '''Test case function for transposing the 4x4 identity matrix'''
     self.A = Matrix4().identity().transpose()
     self.assertTrue(self.A == Matrix4().identity())
+
+  def test_transposing_the_3x3_identity_matrix(self):
+    '''Test case function for transposing the 3x3 identity matrix'''
+    self.A = Matrix3().identity().transpose()
+    self.assertTrue(self.A == Matrix3().identity())
 
   def test_calculating_the_determinant_of_a_2x2_matrix(self):
     '''Test case function for calculating the determinant of a 2x2 matrix'''
@@ -565,12 +643,30 @@ class TestVector(unittest.TestCase):
     self.assertEqual(self.A.determinant(), -2120)
     self.assertTrue(self.A.invertible())
 
+  def test_invertible_3x3_matrix_for_invertibility(self):
+    '''Test case function for testing a invertible 3x3 matrix for invertibility'''
+    self.A = Matrix3(6, 4, 4,
+                     5, 5, -7,
+                     4, -9, 3)
+    
+    self.assertEqual(self.A.determinant(), -720)
+    self.assertTrue(self.A.invertible())
+
   def test_noninvertible_4x4_matrix_for_invertibility(self):
     '''Test case function for testing a noninvertible 4x4 matrix for invertibility'''
     self.A = Matrix4(-4, 2, -2, -3,
                      9, 6, 2, 6,
                      0, -5, 1, -5,
                      0, 0, 0, 0)
+    
+    self.assertEqual(self.A.determinant(), 0)
+    self.assertFalse(self.A.invertible())
+
+  def test_noninvertible_3x3_matrix_for_invertibility(self):
+    '''Test case function for testing a noninvertible 3x3 matrix for invertibility'''
+    self.A = Matrix3(-4, 2, -2,
+                     0, -5, 1,
+                     0, 0, 0)
     
     self.assertEqual(self.A.determinant(), 0)
     self.assertFalse(self.A.invertible())
@@ -593,6 +689,22 @@ class TestVector(unittest.TestCase):
                       -0.52256, -0.81391, -0.30075, 0.30639)
     self.assertTrue(self.B == expected)
 
+  def test_calculate_inverse_of_3x3_matrix(self):
+    '''Test case function for calculating the inverse of a 3x3 matrix'''
+    self.A = Matrix3(-5, 2, 6,
+                     1, -5, 1,
+                     7, 7, -6)
+    self.B = self.A.inverse()
+    self.assertEqual(self.A.determinant(), 163)
+    self.assertEqual(self.A.cofactor(2, 1), 11)
+    self.assertEqual(self.B.at(1, 2), 11/163)
+    self.assertEqual(self.A.cofactor(1, 2), 49)
+    self.assertEqual(self.B.at(2, 1), 49/163)
+    expected = Matrix3(0.14110, 0.33128, 0.19631,
+                       0.07975, -0.07361, 0.06748,
+                       0.25766, 0.30061, 0.14110)
+    self.assertTrue(self.B == expected)
+
   def test_calculate_inverse_of_another_4x4_matrix(self):
     '''Test case function for calculating the inverse of another 4x4 matrix'''
     self.A = Matrix4(8, -5, 9, 2,
@@ -604,6 +716,17 @@ class TestVector(unittest.TestCase):
                        -0.07692, 0.12308, 0.02564, 0.03077,
                         0.35897, 0.35897, 0.43590, 0.92308,
                        -0.69231, -0.69231, -0.76923, -1.92308)
+    self.assertTrue(self.B == expected)
+
+  def test_calculate_inverse_of_another_3x3_matrix(self):
+    '''Test case function for calculating the inverse of another 3x3 matrix'''
+    self.A = Matrix3(8, -5, 9,
+                     -6, 3, 9,
+                     -3, 2, -9)
+    self.B = self.A.inverse()
+    expected = Matrix3(-2.5, -1.5, -4,
+                       -4.5, -2.5, -7,
+                       -0.16666, -0.05555, -0.33333)
     self.assertTrue(self.B == expected)
 
   def test_calculate_inverse_of_a_third_4x4_matrix(self):
@@ -629,6 +752,17 @@ class TestVector(unittest.TestCase):
                      3, -1, 7, 0,
                      7, 0, 5, 4,
                      6, -2, 0, 5)
+    self.C = self.A.matrixMultiply(self.B)
+    self.assertTrue(self.C.matrixMultiply(self.B.inverse()) == self.A)
+
+  def test_multiply_product_of_3x3_matrix_by_its_inverse(self):
+    '''Test case function for multiplying a 3x3 matrix's product by its inverse'''
+    self.A = Matrix3(3, -9, 7,
+                     3, -8, 2,
+                     -4, 4, 4)
+    self.B = Matrix3(8, 2, 2,
+                     3, -1, 7,
+                     7, 0, 5)
     self.C = self.A.matrixMultiply(self.B)
     self.assertTrue(self.C.matrixMultiply(self.B.inverse()) == self.A)
 

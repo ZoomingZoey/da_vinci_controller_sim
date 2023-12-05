@@ -1,4 +1,5 @@
 from matrix2 import Matrix2
+from tuple2d import Tuple2D
 import utils as ut
 class Matrix3:
   def __init__(self, a11=0, a12=0, a13=0,
@@ -72,4 +73,64 @@ class Matrix3:
           self.at(0, 2) * self.cofactor(0, 2)
 
     return det
+  
+  def matrixMultiply(self, other: "Matrix3") -> "Matrix3":
+    M = Matrix3()
+    for r in range(3):
+      for c in range(3):
+        temp = self.mat[r][0] * other.at(0, c) + \
+               self.mat[r][1] * other.at(1, c) + \
+               self.mat[r][2] * other.at(2, c)
+        M.mat[r][c] = temp
+
+    self.mat = M.mat
+    return self
+  
+  def tupleMultiply(self, other: Tuple2D) -> Tuple2D:
+    t = Tuple2D()
+    for r in range(3):
+      temp = self.mat[r][0] * other.componentAt(0) + \
+              self.mat[r][1] * other.componentAt(1) + \
+              self.mat[r][2] * other.componentAt(2)
+      t.setComponentAt(r, temp)
+
+    return t
+  
+  def identity(self):
+    self.mat = [
+      [1, 0, 0],
+      [0, 1, 0],
+      [0, 0, 1]
+    ]
+
+    return self
+  
+  def transpose(self):
+    M = Matrix3()
+    for r in range(3):
+      for c in range(3):
+        M.mat[c][r] = self.at(r, c)
+
+    return M
+  
+  def invertible(self) -> bool:
+    if self.determinant() == 0:
+      return False
+    
+    return True
+  
+  def inverse(self) -> "Matrix3":
+    if not self.invertible():
+      return self
+    
+    M2 = Matrix3()
+    for row in range(3):
+      for col in range(3):
+        c = self.cofactor(row, col)
+
+        # note that "col, row" here, instead of "row, col",
+        # accomplishes the transpose operation!
+        M2.mat[col][row] = c / self.determinant()
+
+    return M2
         
