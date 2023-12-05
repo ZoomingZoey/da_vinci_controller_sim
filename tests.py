@@ -766,5 +766,49 @@ class TestVector(unittest.TestCase):
     self.C = self.A.matrixMultiply(self.B)
     self.assertTrue(self.C.matrixMultiply(self.B.inverse()) == self.A)
 
+  def test_multiplying_a_3d_point_by_a_4x4_translation_matrix(self):
+    '''Test case function for multiplying a 3D point by a 4x4 translation matrix'''
+    self.transform = Matrix4().translation(5, -3, 2)
+    self.p = Point3D(-3, 4, 5)
+    result = self.transform.tupleMultiply(self.p)
+    self.assertTrue(result == Point3D(2, 1, 7))
+
+  def test_multiplying_a_2d_point_by_a_3x3_translation_matrix(self):
+    '''Test case function for multiplying a 2D point by a 3x3 translation matrix'''
+    self.transform = Matrix3().translation(5, -3)
+    self.p = Point2D(-3, 4)
+    result = self.transform.tupleMultiply(self.p)
+    self.assertTrue(result == Point2D(2, 1))
+
+  def test_multiplying_a_3d_point_by_the_inverse_of_a_4x4_translation_matrix(self):
+    '''Test case function for multiplying a 3D point by the inverse of a 4x4 translation matrix'''
+    self.transform = Matrix4().translation(5, -3, 2)
+    self.inv = self.transform.inverse()
+    self.p = Point3D(-3, 4, 5)
+    result = self.inv.tupleMultiply(self.p)
+    self.assertTrue(result == Point3D(-8, 7, 3))
+
+  def test_multiplying_a_2d_point_by_the_inverse_of_a_3x3_translation_matrix(self):
+    '''Test case function for multiplying a 2D point by the inverse of a 3x3 translation matrix'''
+    self.transform = Matrix3().translation(5, -3)
+    self.inv = self.transform.inverse()
+    self.p = Point2D(-3, 4)
+    result = self.inv.tupleMultiply(self.p)
+    self.assertTrue(result == Point2D(-8, 7))
+
+  def test_translation_does_not_affect_3d_vectors(self):
+    '''Test case function for showing translation does not affect 3D vectors'''
+    self.transform = Matrix4().translation(5, -3, 2)
+    self.v = Vector3D(-3, 4, 5)
+    result = self.transform.tupleMultiply(self.v)
+    self.assertTrue(result == self.v)
+
+  def test_translation_does_not_affect_2d_vectors(self):
+    '''Test case function for showing translation does not affect 2D vectors'''
+    self.transform = Matrix3().translation(5, -3)
+    self.v = Vector2D(-3, 4)
+    result = self.transform.tupleMultiply(self.v)
+    self.assertTrue(result == self.v)
+
 if __name__ == '__main__':
   unittest.main()

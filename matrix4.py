@@ -2,10 +2,10 @@ import utils as ut
 from tuple3d import Tuple3D
 from matrix3 import Matrix3
 class Matrix4:
-  def __init__(self, a11=0, a12=0, a13=0, a14=0,
-               a21=0, a22=0, a23=0, a24=0,
-               a31=0, a32=0, a33=0, a34=0,
-               a41=0, a42=0, a43=0, a44=0):
+  def __init__(self, a11=1, a12=0, a13=0, a14=0,
+                     a21=0, a22=1, a23=0, a24=0,
+                     a31=0, a32=0, a33=1, a34=0,
+                     a41=0, a42=0, a43=0, a44=1):
     
     self.mat = [
       [a11, a12, a13, a14],
@@ -21,14 +21,9 @@ class Matrix4:
     return self.mat[row][collumn]
 
   def identity(self):
-    self.mat = [
-      [1, 0, 0, 0],
-      [0, 1, 0, 0],
-      [0, 0, 1, 0],
-      [0, 0, 0, 1]
-    ]
+    identity = Matrix4()
 
-    return self
+    return self.matrixMultiply(identity)
   
   def __eq__(self, other: "Matrix4") -> bool:
     return(
@@ -139,6 +134,11 @@ class Matrix4:
         M2.mat[col][row] = c / self.determinant()
 
     return M2
+  
+  def translation(self, x, y, z):
+    translation = Matrix4(a14=x, a24=y, a34=z)
+
+    return self.matrixMultiply(translation)
 
     
     

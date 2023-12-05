@@ -2,9 +2,9 @@ from matrix2 import Matrix2
 from tuple2d import Tuple2D
 import utils as ut
 class Matrix3:
-  def __init__(self, a11=0, a12=0, a13=0,
-               a21=0, a22=0, a23=0,
-               a31=0, a32=0, a33=0):
+  def __init__(self, a11=1, a12=0, a13=0,
+                     a21=0, a22=1, a23=0,
+                     a31=0, a32=0, a33=1):
     
     self.mat = [
       [a11, a12, a13],
@@ -97,13 +97,9 @@ class Matrix3:
     return t
   
   def identity(self):
-    self.mat = [
-      [1, 0, 0],
-      [0, 1, 0],
-      [0, 0, 1]
-    ]
+    identity = Matrix3()
 
-    return self
+    return self.matrixMultiply(identity)
   
   def transpose(self):
     M = Matrix3()
@@ -133,4 +129,9 @@ class Matrix3:
         M2.mat[col][row] = c / self.determinant()
 
     return M2
+  
+  def translation(self, x, y):
+    translation = Matrix3(a13=x, a23=y)
+
+    return self.matrixMultiply(translation)
         

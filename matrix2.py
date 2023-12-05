@@ -1,7 +1,7 @@
 import utils as ut
 class Matrix2:
-  def __init__(self, a11=0, a12=0,
-               a21=0, a22=0):
+  def __init__(self, a11=1, a12=0,
+                     a21=0, a22=1):
     
     self.mat = [
       [a11, a12],
