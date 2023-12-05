@@ -139,6 +139,31 @@ class Matrix4:
     translation = Matrix4(a14=x, a24=y, a34=z)
 
     return self.matrixMultiply(translation)
+  
+  def scaling(self, x: float, y: float, z: float) -> "Matrix4":
+    scaling_matrix = Matrix4(a11=x, a22=y, a33=z)
+
+    return self.matrixMultiply(scaling_matrix)
+  
+  def reflectX(self) -> "Matrix4":
+    scaling_matrix = Matrix4().scaling(-1, 1, 1)
+
+    return self.matrixMultiply(scaling_matrix)
+  
+  def reflectY(self) -> "Matrix4":
+    scaling_matrix = Matrix4().scaling(1, -1, 1)
+
+    return self.matrixMultiply(scaling_matrix)
+  
+  def reflectZ(self) -> "Matrix4":
+    scaling_matrix = Matrix4().scaling(1, 1, -1)
+
+    return self.matrixMultiply(scaling_matrix)
+  
+  def reflectOrigin(self) -> "Matrix4":
+    scaling_matrix = Matrix4().scaling(-1, -1, -1)
+
+    return self.matrixMultiply(scaling_matrix)
 
     
     

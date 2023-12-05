@@ -810,5 +810,63 @@ class TestVector(unittest.TestCase):
     result = self.transform.tupleMultiply(self.v)
     self.assertTrue(result == self.v)
 
+  def test_a_4x4_scaling_matrix_applied_to_a_3d_point(self):
+    '''Test case function for applying a 4x4 scaling matrix to a 3D point'''
+    self.transform = Matrix4().scaling(2, 3, 4)
+    self.p = Point3D(-4, 6, 8)
+    result = self.transform.tupleMultiply(self.p)
+    self.assertTrue(result == Point3D(-8, 18, 32))
+
+  def test_a_3x3_scaling_matrix_applied_to_a_2d_point(self):
+    '''Test case function for applying a 3x3 scaling matrix to a 2D point'''
+    self.transform = Matrix3().scaling(2, 3)
+    self.p = Point2D(-4, 6)
+    result = self.transform.tupleMultiply(self.p)
+    self.assertTrue(result == Point2D(-8, 18))
+
+  def test_a_4x4_scaling_matrix_applied_to_a_3d_vector(self):
+    '''Test case function for applying a 4x4 scaling matrix to a 3D vector'''
+    self.transform = Matrix4().scaling(2, 3, 4)
+    self.v = Vector3D(-4, 6, 8)
+    result = self.transform.tupleMultiply(self.v)
+    self.assertTrue(result == Vector3D(-8, 18, 32))
+
+  def test_a_3x3_scaling_matrix_applied_to_a_2d_vector(self):
+    '''Test case function for applying a 3x3 scaling matrix to a 2D vector'''
+    self.transform = Matrix3().scaling(2, 3)
+    self.v = Vector2D(-4, 6)
+    result = self.transform.tupleMultiply(self.v)
+    self.assertTrue(result == Vector2D(-8, 18))
+
+  def test_multiplying_by_the_inverse_of_a_4x4_scaling_matrix(self):
+    '''Test case function for multiplying by the inverse of a 4x4 scaling matrix'''
+    self.transform = Matrix4().scaling(2, 3, 4)
+    self.inv = self.transform.inverse()
+    self.v = Vector3D(-4, 6, 8)
+    result = self.inv.tupleMultiply(self.v)
+    self.assertTrue(result == Vector3D(-2, 2, 2))
+
+  def test_multiplying_by_the_inverse_of_a_3x3_scaling_matrix(self):
+    '''Test case function for multiplying by the inverse of a 3x3 scaling matrix'''
+    self.transform = Matrix3().scaling(2, 3)
+    self.inv = self.transform.inverse()
+    self.v = Vector2D(-4, 6)
+    result = self.inv.tupleMultiply(self.v)
+    self.assertTrue(result == Vector2D(-2, 2))
+
+  def test_3d_reflection_is_scaling_by_a_negative_value(self):
+    '''Test case function for showing 3D reflection is scaling by a negative value'''
+    self.transform = Matrix4().scaling(-1, 1, 1)
+    self.p = Point3D(2, 3, 4)
+    result = self.transform.tupleMultiply(self.p)
+    self.assertTrue(result == Point3D(-2, 3, 4))
+
+  def test_2d_reflection_is_scaling_by_a_negative_value(self):
+    '''Test case function for showing 2D reflection is scaling by a negative value'''
+    self.transform = Matrix3().scaling(-1, 1)
+    self.p = Point2D(2, 3)
+    result = self.transform.tupleMultiply(self.p)
+    self.assertTrue(result == Point2D(-2, 3))
+
 if __name__ == '__main__':
   unittest.main()

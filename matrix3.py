@@ -134,4 +134,24 @@ class Matrix3:
     translation = Matrix3(a13=x, a23=y)
 
     return self.matrixMultiply(translation)
+  
+  def scaling(self, x: float, y: float) -> "Matrix3":
+    scaling_matrix = Matrix3(a11=x, a22=y)
+
+    return self.matrixMultiply(scaling_matrix)
+  
+  def reflectX(self) -> "Matrix3":
+    scaling_matrix = Matrix3().scaling(-1, 1)
+
+    return self.matrixMultiply(scaling_matrix)
+  
+  def reflectY(self) -> "Matrix3":
+    scaling_matrix = Matrix3().scaling(1, -1)
+
+    return self.matrixMultiply(scaling_matrix)
+  
+  def reflectOrigin(self) -> "Matrix3":
+    scaling_matrix = Matrix3().scaling(-1, -1)
+
+    return self.matrixMultiply(scaling_matrix)
         
