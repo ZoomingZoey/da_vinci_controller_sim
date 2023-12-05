@@ -2,10 +2,10 @@ import utils as ut
 from tuple3d import Tuple3D
 from matrix3 import Matrix3
 class Matrix4:
-  def __init__(self, a11=1, a12=0, a13=0, a14=0,
-                     a21=0, a22=1, a23=0, a24=0,
-                     a31=0, a32=0, a33=1, a34=0,
-                     a41=0, a42=0, a43=0, a44=1):
+  def __init__(self, a11: float=1, a12: float=0, a13: float=0, a14: float=0,
+                     a21: float=0, a22: float=1, a23: float=0, a24: float=0,
+                     a31: float=0, a32: float=0, a33: float=1, a34: float=0,
+                     a41: float=0, a42: float=0, a43: float=0, a44: float=1):
     
     self.mat = [
       [a11, a12, a13, a14],
@@ -14,13 +14,13 @@ class Matrix4:
       [a41, a42, a43, a44]
     ]
 
-  def at(self, row, collumn):
-    if (row < 0 or row >= 4) and (collumn < 0 or collumn >= 4):
+  def at(self, row: int, col: int) -> float:
+    if (row < 0 or row >= 4) and (col < 0 or col >= 4):
       print('Matrix row or collumn index out of range')
       return
-    return self.mat[row][collumn]
+    return self.mat[row][col]
 
-  def identity(self):
+  def identity(self) -> "Matrix4":
     identity = Matrix4()
 
     return self.matrixMultiply(identity)
@@ -69,7 +69,7 @@ class Matrix4:
 
     return t
   
-  def transpose(self):
+  def transpose(self) -> "Matrix4":
     M = Matrix4()
     for r in range(4):
       for c in range(4):
@@ -95,7 +95,7 @@ class Matrix4:
                    new_values[3], new_values[4], new_values[5],
                    new_values[6], new_values[7], new_values[8])
   
-  def minor(self, row: int, col: int):
+  def minor(self, row: int, col: int) -> float:
     M = self.submatrix(row, col)
     return M.determinant()
   
@@ -106,7 +106,7 @@ class Matrix4:
     
     return minor
   
-  def determinant(self):
+  def determinant(self) -> float:
     det = self.at(0, 0) * self.cofactor(0, 0) + \
           self.at(0, 1) * self.cofactor(0, 1) + \
           self.at(0, 2) * self.cofactor(0, 2) + \
@@ -135,7 +135,7 @@ class Matrix4:
 
     return M2
   
-  def translation(self, x, y, z):
+  def translation(self, x: float, y: float, z: float) -> "Matrix4":
     translation = Matrix4(a14=x, a24=y, a34=z)
 
     return self.matrixMultiply(translation)

@@ -2,15 +2,15 @@ from tuple2d import Tuple2D
 import math
 
 class Vector2D(Tuple2D):
-  def __init__(self, x, y):
+  def __init__(self, x: float, y: float) -> None:
     super().__init__(x, y, 0.0)
 
   @classmethod
-  def magnitude(cls, v):
+  def magnitude(cls, v: "Vector2D") -> float:
     return math.sqrt(math.pow(v.x, 2) + math.pow(v.y, 2) + math.pow(v.w, 2))
   
   @classmethod
-  def normalize(cls, v):
+  def normalize(cls, v: "Vector2D") -> Tuple2D:
     return Tuple2D(v.x / Vector2D.magnitude(v),
                     v.y / Vector2D.magnitude(v),
                     v.w / Vector2D.magnitude(v))

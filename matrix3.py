@@ -2,9 +2,9 @@ from matrix2 import Matrix2
 from tuple2d import Tuple2D
 import utils as ut
 class Matrix3:
-  def __init__(self, a11=1, a12=0, a13=0,
-                     a21=0, a22=1, a23=0,
-                     a31=0, a32=0, a33=1):
+  def __init__(self, a11: float=1, a12: float=0, a13: float=0,
+                     a21: float=0, a22: float=1, a23: float=0,
+                     a31: float=0, a32: float=0, a33: float=1) -> None:
     
     self.mat = [
       [a11, a12, a13],
@@ -12,11 +12,11 @@ class Matrix3:
       [a31, a32, a33]
     ]
 
-  def at(self, r, c):
-    if (r < 0 or r >= 3) and (c < 0 or c >= 3):
+  def at(self, row: int, col: int) -> float:
+    if (row < 0 or row >= 3) and (col < 0 or col >= 3):
       print('Matrix row or collumn index out of range')
       return
-    return self.mat[r][c]
+    return self.mat[row][col]
   
   def submatrix(self, row: int, col: int) -> Matrix2:
     if (row < 0 or row >= 3) and (col < 0 or col >= 3):
@@ -48,7 +48,7 @@ class Matrix3:
       ut.equal(self.mat[2][2], other.mat[2][2])
     )
   
-  def minor(self, row: int, col: int):
+  def minor(self, row: int, col: int) -> float:
     if (row < 0 or row >= 3) and (col < 0 or col >= 3):
       print('Matrix row or collumn index out of range')
       return
@@ -56,7 +56,7 @@ class Matrix3:
     M = self.submatrix(row, col)
     return M.determinant()
   
-  def cofactor(self, row: int, col: int):
+  def cofactor(self, row: int, col: int) -> float:
     if (row < 0 or row >= 3) and (col < 0 or col >= 3):
       print('Matrix row or collumn index out of range')
       return
@@ -67,7 +67,7 @@ class Matrix3:
     
     return minor
   
-  def determinant(self):
+  def determinant(self) -> float:
     det = self.at(0, 0) * self.cofactor(0, 0) + \
           self.at(0, 1) * self.cofactor(0, 1) + \
           self.at(0, 2) * self.cofactor(0, 2)
@@ -96,12 +96,12 @@ class Matrix3:
 
     return t
   
-  def identity(self):
+  def identity(self) -> "Matrix3":
     identity = Matrix3()
 
     return self.matrixMultiply(identity)
   
-  def transpose(self):
+  def transpose(self) -> "Matrix3":
     M = Matrix3()
     for r in range(3):
       for c in range(3):
@@ -122,15 +122,15 @@ class Matrix3:
     M2 = Matrix3()
     for row in range(3):
       for col in range(3):
-        c = self.cofactor(row, col)
+        cofactor = self.cofactor(row, col)
 
         # note that "col, row" here, instead of "row, col",
         # accomplishes the transpose operation!
-        M2.mat[col][row] = c / self.determinant()
+        M2.mat[col][row] = cofactor / self.determinant()
 
     return M2
   
-  def translation(self, x, y):
+  def translation(self, x: float, y: float) -> "Matrix3":
     translation = Matrix3(a13=x, a23=y)
 
     return self.matrixMultiply(translation)

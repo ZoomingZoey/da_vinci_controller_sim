@@ -1,7 +1,7 @@
 
 EPSILON = 0.00001
 
-def equal(a, b):
+def equal(a: float, b: float) -> bool:
   if abs(a - b) < EPSILON:
     return True
   
