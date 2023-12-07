@@ -12,6 +12,27 @@ from matrix2 import Matrix2
 from matrix3 import Matrix3
 from matrix4 import Matrix4
 
+class TestUtils(unittest.TestCase):
+  
+  @classmethod
+  def setUpClass(cls): ### run once before all test cases ###
+    pass
+  
+  @classmethod
+  def tearDownClass(cls): ### run once after all test cases ###
+    pass
+  
+  def setUp(self): ### run before each test case ###
+    pass
+  
+  def tearDown(self): ### run after each test case ###
+    pass
+
+  def test_degrees_to_radians(self):
+    '''Test case function to convert degrees to radians'''
+    self.rad = ut.radians(45)
+    self.assertEqual(self.rad, 0.785)
+
 class TestTuple(unittest.TestCase):
   
   @classmethod
@@ -867,6 +888,111 @@ class TestVector(unittest.TestCase):
     self.p = Point2D(2, 3)
     result = self.transform.tupleMultiply(self.p)
     self.assertTrue(result == Point2D(-2, 3))
+
+  def test_rotating_a_3d_point_around_the_x_axis(self):
+    '''Test case function for rotating a 3D point around the X axis'''
+    self.p = Point3D(0, 1, 0)
+    self.half_quarter = Matrix4().rotationX(math.pi / 4)
+    self.full_quarter = Matrix4().rotationX(math.pi / 2)
+    self.assertTrue(self.half_quarter.tupleMultiply(self.p) == Point3D(0, math.sqrt(2) / 2, math.sqrt(2) / 2))
+    self.assertTrue(self.full_quarter.tupleMultiply(self.p) == Point3D(0, 0, 1))
+
+  def test_inverse_of_a_3d_x_rotation_rotates_in_the_opposite_direction(self):
+    '''Test case function for rotating a 3D point around the X axis'''
+    self.p = Point3D(0, 1, 0)
+    self.half_quarter = Matrix4().rotationX(math.pi / 4)
+    self.inv = self.half_quarter.inverse()
+    self.assertTrue(self.inv.tupleMultiply(self.p) == Point3D(0, math.sqrt(2) / 2, -math.sqrt(2) / 2))
+
+  def test_rotating_a_3d_point_around_the_y_axis(self):
+    '''Test case function for rotating a 3D point around the Y axis'''
+    self.p = Point3D(0, 0, 1)
+    self.half_quarter = Matrix4().rotationY(math.pi / 4)
+    self.full_quarter = Matrix4().rotationY(math.pi / 2)
+    self.assertTrue(self.half_quarter.tupleMultiply(self.p) == Point3D(math.sqrt(2) / 2, 0, math.sqrt(2) / 2))
+    self.assertTrue(self.full_quarter.tupleMultiply(self.p) == Point3D(1, 0, 0))
+
+  def test_rotating_a_3d_point_around_the_z_axis(self):
+    '''Test case function for rotating a 3D point around the Z axis'''
+    self.p = Point3D(0, 1, 0)
+    self.half_quarter = Matrix4().rotationZ(math.pi / 4)
+    self.full_quarter = Matrix4().rotationZ(math.pi / 2)
+    self.assertTrue(self.half_quarter.tupleMultiply(self.p) == Point3D(-math.sqrt(2) / 2, math.sqrt(2) / 2, 0))
+    self.assertTrue(self.full_quarter.tupleMultiply(self.p) == Point3D(-1, 0, 0))
+
+  def test_rotating_a_2d_point_around_the_z_axis(self):
+    '''Test case function for rotating a 2D point around the Z axis'''
+    self.p = Point2D(0, 1)
+    self.half_quarter = Matrix3().rotationZ(math.pi / 4)
+    self.full_quarter = Matrix3().rotationZ(math.pi / 2)
+    self.assertTrue(self.half_quarter.tupleMultiply(self.p) == Point2D(-math.sqrt(2) / 2, math.sqrt(2) / 2))
+    self.assertTrue(self.full_quarter.tupleMultiply(self.p) == Point2D(-1, 0))
+
+  def test_individual_3d_transformations_are_applied_in_sequence(self):
+    '''Test case function for showing individual 3D transformations are applied in sequence'''
+    self.p = Point3D(1, 0, 1)
+    self.A = Matrix4().rotationX(math.pi / 2)
+    self.B = Matrix4().scaling(5, 5, 5)
+    self.C = Matrix4().translation(10, 5, 7)
+    # Apply rotation first
+    self.p2 = self.A.tupleMultiply(self.p)
+    self.assertTrue(self.p2 == Point3D(1, -1, 0))
+    # Then apply scaling
+    self.p3 = self.B.tupleMultiply(self.p2)
+    self.assertTrue(self.p3 == Point3D(5, -5, 0))
+    # Then apply translation
+    self.p4 = self.C.tupleMultiply(self.p3)
+    self.assertTrue(self.p4 == Point3D(15, 0, 7))
+
+  def test_individual_2d_transformations_are_applied_in_sequence(self):
+    '''Test case function for showing individual 2D transformations are applied in sequence'''
+    self.p = Point2D(0, 1)
+    self.A = Matrix3().rotationZ(math.pi / 2)
+    self.B = Matrix3().scaling(5, 5)
+    self.C = Matrix3().translation(10, 5)
+    # Apply rotation first
+    self.p2 = self.A.tupleMultiply(self.p)
+    self.assertTrue(self.p2 == Point2D(-1, 0))
+    # Then apply scaling
+    self.p3 = self.B.tupleMultiply(self.p2)
+    self.assertTrue(self.p3 == Point2D(-5, 0))
+    # Then apply translation
+    self.p4 = self.C.tupleMultiply(self.p3)
+    self.assertTrue(self.p4 == Point2D(5, 5))
+
+  def test_chained_3d_transformations_must_be_applied_in_reverse_order(self):
+    '''Test case function for showing chained 3D transformations must be applied in reverse order'''
+    self.p = Point3D(1, 0, 1)
+    self.A = Matrix4().rotationX(math.pi / 2)
+    self.B = Matrix4().scaling(5, 5, 5)
+    self.C = Matrix4().translation(10, 5, 7)
+    self.T = self.C.matrixMultiply(self.B.matrixMultiply(self.A))
+    result = self.T.tupleMultiply(self.p)
+    self.assertTrue(result == Point3D(15, 0, 7))
+
+  def test_chained_2d_transformations_must_be_applied_in_reverse_order(self):
+    '''Test case function for showing chained 2D transformations must be applied in reverse order'''
+    self.p = Point2D(0, 1)
+    self.A = Matrix3().rotationZ(math.pi / 2)
+    self.B = Matrix3().scaling(5, 5)
+    self.C = Matrix3().translation(10, 5)
+    self.T = self.C.matrixMultiply(self.B.matrixMultiply(self.A))
+    result = self.T.tupleMultiply(self.p)
+    self.assertTrue(result == Point2D(5, 5))
+
+  def test_chained_fluent_3d_transformations(self):
+    '''Test case function for showing chained fluent 3D transformations'''
+    self.p = Point3D(1, 0, 1)
+    self.T = Matrix4().translation(10, 5, 7).scaling(5, 5, 5).rotationX(math.pi / 2)
+    result = self.T.tupleMultiply(self.p)
+    self.assertTrue(result == Point3D(15, 0, 7))
+
+  def test_chained_fluent_2d_transformations(self):
+    '''Test case function for showing chained fluent 2D transformations'''
+    self.p = Point2D(0, 1)
+    self.T = Matrix3().translation(10, 5).scaling(5, 5).rotationZ(math.pi / 2)
+    result = self.T.tupleMultiply(self.p)
+    self.assertTrue(result == Point2D(5, 5))
 
 if __name__ == '__main__':
   unittest.main()

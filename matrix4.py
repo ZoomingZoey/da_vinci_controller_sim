@@ -1,4 +1,6 @@
 import utils as ut
+import math
+from tuple2d import Tuple2D
 from tuple3d import Tuple3D
 from matrix3 import Matrix3
 class Matrix4:
@@ -60,6 +62,7 @@ class Matrix4:
   
   def tupleMultiply(self, other: Tuple3D) -> Tuple3D:
     t = Tuple3D()
+
     for r in range(4):
       temp = self.mat[r][0] * other.componentAt(0) + \
               self.mat[r][1] * other.componentAt(1) + \
@@ -164,6 +167,24 @@ class Matrix4:
     scaling_matrix = Matrix4().scaling(-1, -1, -1)
 
     return self.matrixMultiply(scaling_matrix)
+  
+  def rotationX(self, radians: float) -> "Matrix4":
+    rotation_matrix = Matrix4(a22=math.cos(radians), a23=-math.sin(radians),
+                              a32=math.sin(radians), a33=math.cos(radians))
+
+    return self.matrixMultiply(rotation_matrix)
+  
+  def rotationY(self, radians: float) -> "Matrix4":
+    rotation_matrix = Matrix4(a11=math.cos(radians), a13=math.sin(radians),
+                              a31=-math.sin(radians), a33=math.cos(radians))
+
+    return self.matrixMultiply(rotation_matrix)
+  
+  def rotationZ(self, radians: float) -> "Matrix4":
+    rotation_matrix = Matrix4(a11=math.cos(radians), a12=-math.sin(radians),
+                              a21=math.sin(radians), a22=math.cos(radians))
+
+    return self.matrixMultiply(rotation_matrix)
 
     
     

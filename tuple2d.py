@@ -1,4 +1,5 @@
 import utils as ut
+from tuple3d import Tuple3D
 
 class Tuple2D:
   def __init__(self, x: float=0.0, y: float=0.0, w: float=0.0) -> None:

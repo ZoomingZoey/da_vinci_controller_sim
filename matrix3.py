@@ -1,6 +1,7 @@
 from matrix2 import Matrix2
 from tuple2d import Tuple2D
 import utils as ut
+import math
 class Matrix3:
   def __init__(self, a11: float=1, a12: float=0, a13: float=0,
                      a21: float=0, a22: float=1, a23: float=0,
@@ -154,4 +155,10 @@ class Matrix3:
     scaling_matrix = Matrix3().scaling(-1, -1)
 
     return self.matrixMultiply(scaling_matrix)
+  
+  def rotationZ(self, radians: float) -> "Matrix3":
+    rotation_matrix = Matrix3(a11=math.cos(radians), a12=-math.sin(radians),
+                              a21=math.sin(radians), a22=math.cos(radians))
+
+    return self.matrixMultiply(rotation_matrix)
         
